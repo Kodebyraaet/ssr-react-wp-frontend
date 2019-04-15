@@ -46,7 +46,7 @@ class HeadMeta extends Component {
 
     getOpenGraphImage() {
         const image = this.seoValue('facebook_image')
-        return image ? <meta property="og:image" content={image} /> : null
+        return image ? <meta property="og:image" content={image.url} /> : null
     }
 
     getTwitterTitle() {
