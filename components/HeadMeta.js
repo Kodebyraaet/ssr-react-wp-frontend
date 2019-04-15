@@ -1,55 +1,84 @@
-import React from 'react'
-import { Helmet } from "react-helmet"
+import React, { Component } from 'react'
+import Head from 'next/head'
 
-const HeadMeta = props => {
-    const { page } = props;
+class HeadMeta extends Component {
 
-    if(!page) return null;
-
-    if(page.yoast) {
-
-        let title = page.yoast.title;
-        if(!title && page.title && page.title.rendered) title = page.title.rendered;
-        if(!title && page.post_title) title = page.post_title;
-
-        let description = nullToEmptyString(page.yoast.description);
-
-        if(page.type === 'author') {
-            title = nullToEmptyString(page.yoast.author_title) ? page.yoast.author_title : page.first_name+' '+page.last_name;
-            if(nullToEmptyString(page.yoast.author_desc)) description = page.yoast.author_desc;
-        }
-
-        //console.log('Yoast meta', page.yoast);
-
-        return (
-            <Helmet> 
-
-                <title itemProp="name" lang="nb-NO">{title}</title>
-                <meta name="description" content={description} />
-
-                <meta property="og:url" content={nullToEmptyString(page.link)} />
-                <meta property="og:title" content={nullToEmptyString(page.yoast.og_title)} />
-                <meta property="og:description" content={nullToEmptyString(page.yoast.og_desc)} />
-                <meta property="og:image" content={nullToEmptyString(page.yoast.og_image)} />
-
-                <meta property="twitter:title" content={nullToEmptyString(page.yoast.twitter_title)} />
-                <meta property="twitter:description" content={nullToEmptyString(page.yoast.twitter_desc)} />
-
-                <meta name="keywords" content={nullToEmptyString(page.yoast.focuskw)} />
-
-            </Helmet>
-        )
-    } else {
-        console.log('"Yoast" meta not available for this page/post');
-        return null;
+    toString(value) {
+        if(!value) return '';
+        if(value === 'null') return '';
+        return value;
     }
-}
 
-const nullToEmptyString = str => {
-    if(!str) return '';
-    if(str === 'null') return '';
+    seoValue(key) {
+        const { acf } = this.props.page
+        return (acf && acf[`seo_${key}`]) ? this.toString(acf[`seo_${key}`]) : ''
+    }
 
-    return str;
+    getTitle() {
+        const title = this.seoValue('title') || this.props.page.title.rendered
+        return <title>{title}</title>
+    }
+
+    getDescription() {
+        const description = this.seoValue('description')
+        return description ? <meta name="description" content={description} /> : null
+    }
+
+    getKeyWords() {
+        const keywords = this.seoValue('keywords')
+        return keywords ? <meta name="keywords" content={keywords} /> : null
+    }
+
+    getOpenGraphLink() {
+        const { link } = this.props.page
+        return link ? <meta property="og:url" content={link} /> : null
+    }
+
+    getOpenGraphTitle() {
+        const title = this.seoValue('title') || this.props.page.title.rendered
+        return title ? <meta property="og:title" content={title} /> : null
+    }
+
+    getOpenGraphDescription() {
+        const description = this.seoValue('description')
+        return description ? <meta property="og:description" content={description} /> : null
+    }
+
+    getOpenGraphImage() {
+        const image = this.seoValue('facebook_image')
+        return image ? <meta property="og:image" content={image} /> : null
+    }
+
+    getTwitterTitle() {
+        const title = this.seoValue('title') || this.props.page.title.rendered
+        return title ? <meta property="twitter:title" content={title} /> : null
+    }
+
+    getTwitterDescription() {
+        const description = this.seoValue('description')
+        return description ? <meta property="twitter:description" content={description} /> : null
+    }
+
+    render() {
+        const { page } = this.props
+
+        if(!page) return null
+
+        
+        return(
+            <Head>
+                {this.getTitle()}
+                {this.getDescription()}
+                {this.getKeyWords()}
+                {this.getOpenGraphLink()}
+                {this.getOpenGraphTitle()}
+                {this.getOpenGraphDescription()}
+                {this.getOpenGraphImage()}
+                {this.getTwitterTitle()}
+                {this.getTwitterDescription()}
+            </Head>
+        )
+    }
 }
 
 export default HeadMeta;
