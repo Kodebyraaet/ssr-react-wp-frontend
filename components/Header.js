@@ -9,17 +9,6 @@ import Container from 'components/Container'
 
 class Header extends Component {  
 
-    constructor(props) {
-        super(props);
-
-        this.getMenu()
-    }
-
-    async getMenu() {
-        const menu = await api.getMenuByLocation('main-menu')
-        this.props.storeMenu({ menu, location: 'main-menu', lang: 'en' })
-    }
-
     renderMenu() {
         const { menu } = this.props
 
@@ -48,11 +37,7 @@ const mapStateToProps = state => ({
     menu: state.menus.en['main-menu']
 })
 
-const mapDispatchToProps = dispatch => ({
-	storeMenu: ({ menu, location, lang }) => dispatch({ type: 'STORE_MENU', payload: { menu, location, lang } })
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Header)
+export default connect(mapStateToProps, null)(Header)
 
 const Wrapper = styled.div`
     padding: 20px 0;

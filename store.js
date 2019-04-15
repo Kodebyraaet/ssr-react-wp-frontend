@@ -17,6 +17,9 @@ const menusReducer = (state = { no: {}, en: {} }, action) => {
             return state
     }
 }
+export const saveMenu = ({ menu, location, lang }) => dispatch => {
+    return dispatch({ type: 'STORE_MENU', payload: { menu, location, lang } })
+}
 
 /*
 |--------------------------------------------------------------------------
@@ -28,9 +31,9 @@ const reducers = combineReducers({
 })
 
 export const initializeStore = (initialState = {}) => {
-  return createStore(
-    reducers,
-    initialState,
-    composeWithDevTools(applyMiddleware(thunkMiddleware))
-  )
+    return createStore(
+        reducers,
+        initialState,
+        composeWithDevTools(applyMiddleware(thunkMiddleware))
+    )
 }

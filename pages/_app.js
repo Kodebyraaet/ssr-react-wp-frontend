@@ -1,23 +1,31 @@
-import App, { Container } from 'next/app'
 import React from 'react'
 import { Provider } from 'react-redux'
+import App, { Container } from 'next/app'
+import withRedux from 'next-redux-wrapper'
 
-import withReduxStore from 'lib/with-redux-store'
-
+import { initializeStore } from '../store'
 import GlobalStyles from 'css/GlobalStyles'
 
-class MyApp extends App {
-    render () {
-        const { Component, pageProps, reduxStore } = this.props
-        return (
-            <Container>
-                <Provider store={reduxStore}>
-                <Component {...pageProps} />
-                </Provider>
-                <GlobalStyles/>
-            </Container>
-        )
-    }
-}
+export default withRedux(initializeStore)(
+    class MyApp extends App {
+        static async getInitialProps ({ Component, ctx }) {
+            return {
+                pageProps: Component.getInitialProps
+                ? await Component.getInitialProps(ctx)
+                : {}
+            }
+        }
 
-export default withReduxStore(MyApp)
+        render () {
+            const { Component, pageProps, store } = this.props
+            return (
+                <Container>
+                    <Provider store={store}>
+                        <Component {...pageProps} />
+                    </Provider>
+                    <GlobalStyles/>
+                </Container>
+            )
+        }
+    }
+)
