@@ -1,5 +1,7 @@
-import React from 'react';
-import Link from 'next/Link';
+import React from 'react'
+import Link from 'next/Link'
+
+import { buildQueryString } from 'lib/helpers'
 
 export default ({ to, title, children }) => {
     const { link, path, query, queryString } = parseLink(to)
@@ -9,12 +11,6 @@ export default ({ to, title, children }) => {
             <a>{children || title}</a>
         </Link>
     );
-}
-
-const buildQueryString = query => {
-    return Object.keys(query)
-        .reduce((acc, key) => query[key] ? `${acc}${key}=${query[key].trim()}&` : acc, '?')
-        .replace(/&$/, '') 
 }
 
 const parseLink = link => {

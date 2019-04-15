@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-unfetch'
 
-const base = 'http://wp-headless.local'
+const base = 'http://localhost:8080'
 
 const api = {
 
