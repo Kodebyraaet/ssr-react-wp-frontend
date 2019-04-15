@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import debounce from 'lodash.debounce';
 
+import { isServer } from 'lib/helpers'
+
 class Image extends Component {
     constructor(props) {
         super(props);
@@ -12,13 +14,18 @@ class Image extends Component {
     }
 
     componentDidMount() {
-        const { image } = this.props;
+        const { image, debug } = this.props;
 
         window.addEventListener('resize', debounce(this.onResize.bind(this), 500));
 
         if(image && image.id) {
             this.setImageObservable();
         }
+
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+         
     }
 
     componentWillUnmount() {
@@ -26,7 +33,7 @@ class Image extends Component {
     }
 
     onResize() {
-        const { image } = this.props;
+        const { image, debug } = this.props;
 
         // reinit intersection observer
         if(this.observer && image && image.id) {
@@ -65,11 +72,11 @@ class Image extends Component {
             var img = document.createElement("img");
             img.onload = e => {
                 if(debug) console.log('lazy image loaded');
-                this.refs.lazyload.setAttribute('style', `background-image: url(${size.url})`);
+                this.refs.lazyload.setAttribute('style', `background-image: url(${size})`);
                 this.refs.placeholder.className = 'placeholder hidden';
             }
             if(debug) console.log('loading lazy image');
-            img.src = size.url;
+            img.src = size;
         }
     }
 
@@ -103,7 +110,6 @@ class Image extends Component {
         return (
             <Wrapper 
                 ref="image" 
-                innerRef="image" 
                 background={background}
                 padding={this.paddingFromRatio()}
                 backgroundPosition={backgroundPosition} 
@@ -113,13 +119,13 @@ class Image extends Component {
                 {background && size &&
                     <React.Fragment>
                         <div className="lazyload" ref="lazyload" title={image.title} >
-                            <span>{image.alt}</span>
+                            {/*<span>{image.alt}</span>*/}
                         </div>
-                        <div className="placeholder" ref="placeholder" style={{ backgroundImage: `url(${image.sizes.min.url})` }} />  
+                        <div className="placeholder" ref="placeholder" style={{ backgroundImage: `url(${image.sizes.min})` }} />  
                     </React.Fragment>
                 }
                 {!background && size &&
-                    <img src={size.url} alt={image.alt} title={image.title} />
+                    <img src={size} alt={image.alt} title={image.title} />
                 }
             </Wrapper>
         );

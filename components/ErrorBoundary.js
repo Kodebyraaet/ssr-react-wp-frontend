@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 
 import ErrorIcon from 'images/ErrorIcon';
-import Container from 'partials/Container';
 
 class ErrorBoundary extends Component {
     constructor(props) {
@@ -21,10 +20,8 @@ class ErrorBoundary extends Component {
         if (this.state.hasError) {
             return(
                 <Error>
-                    <Container medium>
-                        <ErrorIcon/>
-                        {this.props.for + ' component crashed because of an error'}
-                    </Container>
+                    <ErrorIcon/>
+                    {this.props.for + ' component crashed because of an error'}
                 </Error>
             );
         }
