@@ -10,15 +10,41 @@ app
     .then(() => {
         const server = express()
 
+        const defaultLang = 'en'
+
+        server.get('/', (req, res) => {
+            const actualPage = '/'
+            const queryParams = { lang: defaultLang }
+            app.render(req, res, actualPage, queryParams)
+        })
+
+        server.get('/pl', (req, res) => {
+            const actualPage = '/'
+            const queryParams = { lang: 'pl' }
+            app.render(req, res, actualPage, queryParams)
+        })
+
+        server.get('/pl/:slug', (req, res) => {
+            const actualPage = '/'
+            const queryParams = { lang: 'pl', slug: req.params.slug }
+            app.render(req, res, actualPage, queryParams)
+        })
+
         server.get('/:slug', (req, res) => {
             const actualPage = '/'
-            const queryParams = { slug: req.params.slug }
+            const queryParams = { lang: defaultLang, slug: req.params.slug }
+            app.render(req, res, actualPage, queryParams)
+        })
+
+        server.get('/pl/:parent/:slug', (req, res) => {
+            const actualPage = '/'
+            const queryParams = { lang: 'pl', slug: req.params.slug, parent: req.params.parent }
             app.render(req, res, actualPage, queryParams)
         })
 
         server.get('/:parent/:slug', (req, res) => {
             const actualPage = '/'
-            const queryParams = { slug: req.params.slug, parent: req.params.parent }
+            const queryParams = { lang: defaultLang, slug: req.params.slug, parent: req.params.parent }
             app.render(req, res, actualPage, queryParams)
         })
 

@@ -116,11 +116,13 @@ class Image extends Component {
                 className={className} 
                 onClick={onClick} 
             >
-                {background && size &&
+                {background &&
                     <React.Fragment>
-                        <div className="lazyload" ref="lazyload" title={image.title} >
-                            {/*<span>{image.alt}</span>*/}
-                        </div>
+                        {size &&
+                            <div className="lazyload" ref="lazyload" title={image.title} >
+                                {/*<span>{image.alt}</span>*/}
+                            </div>
+                        }
                         <div className="placeholder" ref="placeholder" style={{ backgroundImage: `url(${image.sizes.min})` }} />  
                     </React.Fragment>
                 }

@@ -2,13 +2,15 @@ import { createStore, applyMiddleware, combineReducers } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import thunkMiddleware from 'redux-thunk'
 
+const defaultLang = 'en'
+
 /*
 |--------------------------------------------------------------------------
 |  MENUS REDUCER
 |--------------------------------------------------------------------------
 |
 */
-const menusReducer = (state = { no: {}, en: {} }, action) => {
+const menusReducer = (state = { [defaultLang]: {} }, action) => {
     switch(action.type) {
         case 'STORE_MENU' : 
             const { lang, location, menu } = action.payload

@@ -14,31 +14,43 @@ const api = {
         return data
     },
 
-    getHomePage: async () => {
+    getHomePage: async (lang) => {
 
-        const homePageId = 5;
+        let homePageId = 5;
+        if(lang === 'pl') homePageId = 33;
         
         const data = await api.get({
-            action: 'fetchPages',
+            action: 'page',
             id: homePageId,
         })
 
+        if(data && data.error) return null;
+
         return Array.isArray(data) ? data[0] : data
     },
 
-    getPageBySlug: async slug => {
+    getPageBySlug: async (slug, lang) => {
 
         const data = await api.get({
-            action: 'fetchPages',
+            action: 'page',
             post_name: slug,
+            lang: lang,
         })
+
+        if(data && data.error) return null;
 
         return Array.isArray(data) ? data[0] : data
     },
 
-    getMenuByLocation: async location => {
-        const res = await fetch(`${base}/wp-json/react/menu/${location}`)
-        const data = await res.json()
+    getMenuByLocation: async (location, lang) => {
+
+        const data = await api.get({
+            action: 'menu',
+            location: location,
+            lang: lang,
+        })
+
+        if(data && data.error) return null;
 
         return data
     }
