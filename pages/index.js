@@ -7,7 +7,7 @@ import Layout from 'components/Layout'
 import Builder from 'components/Builder'
 import api from 'api'
 
-import { saveMenu } from '../store'
+import { saveMenu, saveWp } from '../store'
 
 class Index extends React.Component {
 
@@ -16,18 +16,47 @@ class Index extends React.Component {
         // if query slug is a file - return
         if(~String(query.slug).indexOf('.')) return {}
 
-        const storeState = store.getState()
+        let storeState = store.getState()
+        const { slug, lang } = query
 
-        // load main menu
-        const menuLocation = 'primary-menu';
-        const menuInStore = storeState && storeState.menus[query.lang] && storeState.menus[query.lang][menuLocation];
+        /*
+        |--------------------------------------------------------------------------
+        |  get WP config from API and save it in store
+        |--------------------------------------------------------------------------
+        */
+        if(!storeState.wp) {
+            const wp = await api.getWp()
+            store.dispatch(saveWp(wp))
+            storeState = store.getState() // get state again so it contains 'wp'
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        |  get main menu
+        |--------------------------------------------------------------------------
+        */
+        const location = 'primary-menu'
+        const menuInStore = storeState && 
+                            storeState.menus[lang] && 
+                            storeState.menus[lang][location]
         if(!menuInStore) {
-            const menu = await api.getMenuByLocation(menuLocation, query.lang)
-            store.dispatch(saveMenu({ menu, location: menuLocation, lang: query.lang }))
+            const menu = await api.getMenuByLocation({ location, lang })
+            store.dispatch(saveMenu({ menu, location, lang }))
         }
         
-        // load page data
-        const page = query.slug ? await api.getPageBySlug(query.slug, query.lang) : await api.getHomePage(query.lang)
+        /*
+        |--------------------------------------------------------------------------
+        |  load page data by slug or ID (if home page)
+        |--------------------------------------------------------------------------
+        */
+        let page = null
+        if(slug) { 
+            page = await api.getPageBySlug({ slug, lang }) 
+        } else {
+            const homePageId = !lang ? storeState.wp.home_page.id : storeState.wp.home_page.translations[lang];
+            page = await api.getHomePage({ id: homePageId })
+        }
+
         if(!isServer) console.log('Page:', page);
 
         return { page }
@@ -51,6 +80,7 @@ class Index extends React.Component {
 const mapDispatchToProps = dispatch => {
     return {
         saveMenu: bindActionCreators(saveMenu, dispatch),
+        saveWp: bindActionCreators(saveWp, dispatch),
     }
 }
   

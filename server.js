@@ -5,47 +5,19 @@ const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
 const handle = app.getRequestHandler()
 
+const routes = require('./routes')
+
 app
     .prepare()
     .then(() => {
         const server = express()
 
-        const defaultLang = 'en'
+        routes.forEach(({ path, page, query }) => {
 
-        server.get('/', (req, res) => {
-            const actualPage = '/'
-            const queryParams = { lang: defaultLang }
-            app.render(req, res, actualPage, queryParams)
-        })
+            server.get(path, (req, res) => {
+                app.render(req, res, page, query(req))
+            })
 
-        server.get('/pl', (req, res) => {
-            const actualPage = '/'
-            const queryParams = { lang: 'pl' }
-            app.render(req, res, actualPage, queryParams)
-        })
-
-        server.get('/pl/:slug', (req, res) => {
-            const actualPage = '/'
-            const queryParams = { lang: 'pl', slug: req.params.slug }
-            app.render(req, res, actualPage, queryParams)
-        })
-
-        server.get('/:slug', (req, res) => {
-            const actualPage = '/'
-            const queryParams = { lang: defaultLang, slug: req.params.slug }
-            app.render(req, res, actualPage, queryParams)
-        })
-
-        server.get('/pl/:parent/:slug', (req, res) => {
-            const actualPage = '/'
-            const queryParams = { lang: 'pl', slug: req.params.slug, parent: req.params.parent }
-            app.render(req, res, actualPage, queryParams)
-        })
-
-        server.get('/:parent/:slug', (req, res) => {
-            const actualPage = '/'
-            const queryParams = { lang: defaultLang, slug: req.params.slug, parent: req.params.parent }
-            app.render(req, res, actualPage, queryParams)
         })
 
         server.get('*', (req, res) => {

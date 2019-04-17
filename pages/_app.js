@@ -10,9 +10,6 @@ export default withRedux(initializeStore)(
     class MyApp extends App {
         static async getInitialProps ({ Component, ctx }) {
 
-            // we can dispatch from here too
-            // ctx.store.dispatch({type: 'FOO', payload: 'foo'});
-
             return {
                 pageProps: Component.getInitialProps
                 ? await Component.getInitialProps(ctx)

@@ -2,26 +2,45 @@ import fetch from 'isomorphic-unfetch'
 
 import { buildQueryString } from 'lib/helpers'
 
-const base = 'http://localhost:8080'
-
 const api = {
 
+    /*
+    |--------------------------------------------------------------------------
+    |  generic API GET request
+    |--------------------------------------------------------------------------
+    */
     get: async query => {
         const queryString = buildQueryString(query)
-        const res = await fetch(`${base}/wp-content/themes/react/inc/api/${queryString}`)
+        const res = await fetch(`${process.env.API_BASE}/wp-content/themes/react/inc/api/${queryString}`)
         const data = await res.json()
 
         return data
     },
 
-    getHomePage: async (lang) => {
+    /*
+    |--------------------------------------------------------------------------
+    |  Get WP config
+    |--------------------------------------------------------------------------
+    */
+    getWp: async () => {
 
-        let homePageId = 5;
-        if(lang === 'pl') homePageId = 33;
+        const data = await api.get({ action: 'config'})
+
+        if(data && data.error) return null;
+
+        return data
+    },
+
+    /*
+    |--------------------------------------------------------------------------
+    |  Get home page
+    |--------------------------------------------------------------------------
+    */
+    getHomePage: async ({ id }) => {
         
         const data = await api.get({
             action: 'page',
-            id: homePageId,
+            id: id,
         })
 
         if(data && data.error) return null;
@@ -29,12 +48,17 @@ const api = {
         return Array.isArray(data) ? data[0] : data
     },
 
-    getPageBySlug: async (slug, lang) => {
+    /*
+    |--------------------------------------------------------------------------
+    |  Get page by slug
+    |--------------------------------------------------------------------------
+    */
+    getPageBySlug: async ({ slug, lang }) => {
 
         const data = await api.get({
             action: 'page',
             post_name: slug,
-            lang: lang,
+            lang: lang || '',
         })
 
         if(data && data.error) return null;
@@ -42,7 +66,12 @@ const api = {
         return Array.isArray(data) ? data[0] : data
     },
 
-    getMenuByLocation: async (location, lang) => {
+    /*
+    |--------------------------------------------------------------------------
+    |  Get menu by menu location
+    |--------------------------------------------------------------------------
+    */
+    getMenuByLocation: async ({ location, lang }) => {
 
         const data = await api.get({
             action: 'menu',
