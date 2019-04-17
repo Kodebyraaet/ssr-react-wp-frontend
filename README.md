@@ -2,9 +2,12 @@
 
 SSR provided by Next.js
 
-### Setup
-You should now have backend set up on `http://localhost:8080/wp-admin` 
+### Backend 
+This setup is ment to be used with WordPress headless backend. You can grab it here: https://github.com/Kodebyraaet/ssr-react-wp-backend
 
-1. Get dependencies with `npm i` 
-2. Start the server with `npm run dev`. Node server should now be rining on http://localhost:3000
-3. ...
+### Setup
+1. Set up WP backend (link above) & have `http://localhost:8080` running 
+2. Get dependencies with `npm i` 
+3. Create .env file by rinning `cp .env.example .env`
+3. Start the server with `npm run dev`. Node server should now be rining on http://localhost:3000
+4. 
