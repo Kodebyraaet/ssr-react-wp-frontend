@@ -28,6 +28,7 @@ export default createGlobalStyle`
 
     a, a:hover, a:visited, a:active {
         text-decoration: none;
+        color: ${colors.accent};
     }
 
     div {

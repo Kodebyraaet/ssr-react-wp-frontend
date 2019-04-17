@@ -36,12 +36,14 @@ class Index extends React.Component {
         |--------------------------------------------------------------------------
         */
         const location = 'primary-menu'
-        const menuInStore = storeState && 
-                            storeState.menus[lang] && 
-                            storeState.menus[lang][location]
+        let menuLang = lang || storeState.wp.default_language
+        const menuInStore = menuLang ? 
+                            (storeState && storeState.menus[menuLang] && storeState.menus[menuLang][location]) 
+                            :
+                            (storeState && storeState.menus[location])
         if(!menuInStore) {
-            const menu = await api.getMenuByLocation({ location, lang })
-            store.dispatch(saveMenu({ menu, location, lang }))
+            const menu = await api.getMenuByLocation({ location, lang: menuLang })
+            store.dispatch(saveMenu({ menu, location, lang: menuLang }))
         }
         
         /*

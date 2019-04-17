@@ -22,13 +22,42 @@ class Header extends Component {
         )
     }
 
+    homeLink() {
+        const { router, wp } = this.props
+        const lang = router.query.lang
+        const defaultLang = wp ? wp.default_language : ''
+
+        if(!lang) return '/'
+
+        return  lang === defaultLang ? '/' : '/'+lang
+    }
+
+    renderLangSwitcher() {
+        const { router, wp } = this.props
+        if(wp && wp.languages) {
+            return(
+                <LanguageSwitcher>
+                    {wp.languages.map(lang => {
+                        return(
+                            <Link key={lang} to={'/'+lang}>
+                                {lang.toUpperCase()}
+                            </Link>
+                        )
+                    })}
+                </LanguageSwitcher>
+            )
+        }
+        return null;
+    }
+
     render() {
         return (
             <Wrapper>
                 <Container flex justify="space-between" align="center">
-                    <Link to={'/'}>
+                    <Link to={this.homeLink()}>
                         <Logo>SSR App</Logo>
                     </Link>
+                    {this.renderLangSwitcher()}
                     {this.renderMenu()}
                 </Container>
             </Wrapper>
@@ -36,9 +65,15 @@ class Header extends Component {
     }
 }
 
-const mapStateToProps = (state, props) => ({
-    menu: state.menus[props.router.query.lang]['primary-menu'],
-})
+const mapStateToProps = (state, props) => {
+    const lang = props.router.query.lang || state.wp.default_language
+    const menu = lang && state.menus[lang] ? state.menus[lang]['primary-menu'] : state.menus['primary-menu']
+    //console.log('state menus:',state.menus, 'lang:',lang);
+    return {
+        menu: menu || null,
+        wp: state.wp,
+    }
+}
 
 export default withRouter(connect(mapStateToProps, null)(Header))
 
@@ -54,10 +89,15 @@ const Logo = styled.h1`
 
 const Menu = styled.nav`
     a {
-        color: ${colors.accent};
         margin-left:15px;
         &:hover {
             text-decoration: underline;
         }
+    }
+`
+
+const LanguageSwitcher = styled.div`
+    a {
+        margin: 0 5px;
     }
 `

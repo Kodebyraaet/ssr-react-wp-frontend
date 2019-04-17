@@ -2,8 +2,6 @@ import { createStore, applyMiddleware, combineReducers } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import thunkMiddleware from 'redux-thunk'
 
-const defaultLang = 'en'
-
 /*
 |--------------------------------------------------------------------------
 |  WP CONFIG REDUCER
@@ -28,11 +26,16 @@ export const saveWp = wp => dispatch => {
 |--------------------------------------------------------------------------
 |
 */
-const menusReducer = (state = { [defaultLang]: {} }, action) => {
+const menusReducer = (state = {}, action) => {
     switch(action.type) {
         case 'SAVE_MENU' : 
             const { lang, location, menu } = action.payload
-            return {...state, [lang]: {...state[lang], [location]: menu }}
+            if(lang) {
+                return {...state, [lang]: {...state[lang], [location]: menu }}
+            } else {
+                return {...state, [location]: menu}
+            }
+            
         default :
             return state
     }
