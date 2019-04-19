@@ -87,6 +87,9 @@ const Menu = styled.nav`
         &:hover {
             text-decoration: underline;
         }
+        &.active {
+            text-decoration: underline;
+        }
     }
 `
 

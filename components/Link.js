@@ -1,17 +1,22 @@
 import React from 'react'
 import Link from 'next/Link'
+import { withRouter } from 'next/router'
 
 import { buildQueryString } from 'lib/helpers'
 
-export default ({ to, title, children, prefetch }) => {
+export default withRouter( ({ to, title, children, prefetch, className, ...props }) => {
     const { link, path, query, queryString } = parseLink(to)
+
+    if(props.router.asPath === path) {
+        className = ((className || '') + ' active').trim()
+    }
 
     return (
         <Link prefetch={prefetch} as={path} href={`/${queryString}`}>
-            <a>{children || title}</a>
+            <a className={className}>{children || title}</a>
         </Link>
-    );
-}
+    )
+})
 
 const parseLink = link => {
 
