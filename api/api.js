@@ -13,7 +13,7 @@ const api = {
         const queryString = buildQueryString(query)
         const url = `${process.env.API_BASE}/wp-content/themes/react/inc/api/${queryString}`
         
-        console.log('API CALL: ', url);
+        //console.log('API CALL: ', url);
         
         try {
             return await (await fetch(url)).json();
