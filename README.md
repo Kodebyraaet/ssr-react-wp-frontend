@@ -12,5 +12,5 @@ This setup is meant to be used with WordPress headless backend. You can grab it 
 3. Start the server with `npm run dev`. Node server should now be running on http://localhost:3000
 4. 
 
-### Deployment
-...
+### Deployment with "Now"
+Make sure you have "now" CLI installed (`now help`). If not - get it with `sudo npm i -g --unsafe-perm now`
