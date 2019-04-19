@@ -36,7 +36,7 @@ const parseLink = link => {
     }
 
     // match language code, store it in 'query' and remove from fragments
-    const languageCodes = ['en', 'no', 'pl']
+    const languageCodes = [ 'en', 'pl']
     if(fragments.length && ~languageCodes.indexOf(fragments[0])) {
         query.lang = fragments[0]
         fragments.shift() // remove language code from fragments

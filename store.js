@@ -10,14 +10,32 @@ import thunkMiddleware from 'redux-thunk'
 */
 const wpReducer = (state = null, action) => {
     switch(action.type) {
-        case 'SAVE_WP' : 
+        case 'SET_WP' : 
             return action.payload
         default :
             return state
     }
 }
-export const saveWp = wp => dispatch => {
-    return dispatch({ type: 'SAVE_WP', payload: wp })
+export const setWp = wp => dispatch => {
+    return dispatch({ type: 'SET_WP', payload: wp })
+}
+
+/*
+|--------------------------------------------------------------------------
+|  LANGUAGE REDUCER
+|--------------------------------------------------------------------------
+|
+*/
+const langReducer = (state = '', action) => {
+    switch(action.type) {
+        case 'SET_LANG' : 
+            return action.payload
+        default :
+            return state
+    }
+}
+export const setLang = lang => dispatch => {
+    return dispatch({ type: 'SET_LANG', payload: lang })
 }
 
 /*
@@ -28,7 +46,7 @@ export const saveWp = wp => dispatch => {
 */
 const menusReducer = (state = {}, action) => {
     switch(action.type) {
-        case 'SAVE_MENU' : 
+        case 'SET_MENU' : 
             const { lang, location, menu } = action.payload
             if(lang) {
                 return {...state, [lang]: {...state[lang], [location]: menu }}
@@ -40,8 +58,8 @@ const menusReducer = (state = {}, action) => {
             return state
     }
 }
-export const saveMenu = ({ menu, location, lang }) => dispatch => {
-    return dispatch({ type: 'SAVE_MENU', payload: { menu, location, lang } })
+export const setMenu = ({ menu, location, lang }) => dispatch => {
+    return dispatch({ type: 'SET_MENU', payload: { menu, location, lang } })
 }
 
 /*
@@ -51,6 +69,7 @@ export const saveMenu = ({ menu, location, lang }) => dispatch => {
 */
 const reducers = combineReducers({
     wp: wpReducer,
+    lang: langReducer,
     menus: menusReducer,
 })
 

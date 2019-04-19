@@ -1,5 +1,6 @@
 import React from 'react';
 import { withRouter } from 'next/router'
+import Error from './_error'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
@@ -7,7 +8,7 @@ import Layout from 'components/Layout'
 import Builder from 'components/Builder'
 import api from 'api'
 
-import { saveMenu, saveWp } from '../store'
+import { setMenu, setWp, setLang } from '../store'
 
 class Index extends React.Component {
 
@@ -17,7 +18,6 @@ class Index extends React.Component {
         if(~String(query.slug).indexOf('.')) return {}
 
         let storeState = store.getState()
-        const { slug, lang } = query
 
         /*
         |--------------------------------------------------------------------------
@@ -25,9 +25,20 @@ class Index extends React.Component {
         |--------------------------------------------------------------------------
         */
         if(!storeState.wp) {
-            const wp = await api.getWp()
-            store.dispatch(saveWp(wp))
+            const wp = await api.get('config')
+            store.dispatch(setWp(wp))
             storeState = store.getState() // get state again so it contains 'wp'
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        |  set current language
+        |--------------------------------------------------------------------------
+        */
+        const lang = query.lang || storeState.wp.default_language
+        if(lang !== storeState.lang) {
+            store.dispatch(setLang(lang))
+            storeState = store.getState() // get state again so it contains 'lang'
         }
 
         /*
@@ -36,14 +47,13 @@ class Index extends React.Component {
         |--------------------------------------------------------------------------
         */
         const location = 'primary-menu'
-        let menuLang = lang || storeState.wp.default_language
-        const menuInStore = menuLang ? 
-                            (storeState && storeState.menus[menuLang] && storeState.menus[menuLang][location]) 
+        const menuInStore = lang ? 
+                            (storeState && storeState.menus[lang] && storeState.menus[lang][location]) 
                             :
                             (storeState && storeState.menus[location])
         if(!menuInStore) {
-            const menu = await api.getMenuByLocation({ location, lang: menuLang })
-            store.dispatch(saveMenu({ menu, location, lang: menuLang }))
+            const menu = await api.get('menu', { location, lang })
+            store.dispatch(setMenu({ menu, location, lang }))
         }
         
         /*
@@ -52,14 +62,15 @@ class Index extends React.Component {
         |--------------------------------------------------------------------------
         */
         let page = null
-        if(slug) { 
-            page = await api.getPageBySlug({ slug, lang }) 
+        if(query.slug) { 
+            page = await api.get('page', { slug: query.slug, lang }) 
         } else {
             const homePageId = !lang ? storeState.wp.home_page.id : storeState.wp.home_page.translations[lang];
-            page = await api.getHomePage({ id: homePageId })
+            page = await api.get('page', { id: homePageId })
         }
+        page = Array.isArray(page) ? page[0] : page
 
-        if(!isServer) console.log('Page:', page);
+        if(!isServer) console.log('Page:', page); 
 
         return { page }
     }
@@ -67,12 +78,10 @@ class Index extends React.Component {
     render () {
         const { page } = this.props;
 
-        if(!page) return null;
+        if(!page) return <Error statusCode={404} />
 
         return(
             <Layout page={page}>
-                <h3>{page.title.rendered}</h3>
-                <div dangerouslySetInnerHTML={{ __html: page.content.rendered }} />
                 <Builder data={page.acf.modules} page={page} />
             </Layout>
         )
@@ -81,8 +90,9 @@ class Index extends React.Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        saveMenu: bindActionCreators(saveMenu, dispatch),
-        saveWp: bindActionCreators(saveWp, dispatch),
+        setMenu: bindActionCreators(setMenu, dispatch),
+        setWp: bindActionCreators(setWp, dispatch),
+        setLang: bindActionCreators(setLang, dispatch),
     }
 }
   

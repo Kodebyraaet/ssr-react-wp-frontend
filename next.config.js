@@ -9,7 +9,6 @@ module.exports = {
         config.resolve.alias['lib'] = path.join(__dirname, 'lib')
         config.resolve.alias['api'] = path.join(__dirname, 'api')
         config.resolve.alias['css'] = path.join(__dirname, 'css')
-        config.resolve.alias['images'] = path.join(__dirname, 'images')
 
         config.plugins = config.plugins || []
 

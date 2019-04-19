@@ -12,6 +12,10 @@ app
     .then(() => {
         const server = express()
 
+        // default language does not use lang. code
+        server.get('/en', (req, res) => res.redirect(301, '/') )
+
+        // app routes
         routes.forEach(({ path, page, query }) => {
 
             server.get(path, (req, res) => {
@@ -28,6 +32,7 @@ app
             if (err) throw err
             console.log('> Ready on http://localhost:3000')
         })
+
     })
     .catch(ex => {
         console.error(ex.stack)

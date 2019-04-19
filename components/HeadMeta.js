@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import Head from 'next/head'
 
+import colors from 'css/colors'
+
 class HeadMeta extends Component {
 
     toString(value) {
@@ -67,6 +69,10 @@ class HeadMeta extends Component {
         
         return(
             <Head>
+                <meta charSet="UTF-8" />
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                <link rel="icon" href="/static/favicon.ico" />
+                <link rel="manifest" href="/static/manifest.json" />
                 {this.getTitle()}
                 {this.getDescription()}
                 {this.getKeyWords()}

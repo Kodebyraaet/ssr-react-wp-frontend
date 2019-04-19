@@ -23,23 +23,18 @@ class Header extends Component {
     }
 
     homeLink() {
-        const { router, wp } = this.props
-        const lang = router.query.lang
-        const defaultLang = wp ? wp.default_language : ''
-
-        if(!lang) return '/'
-
-        return  lang === defaultLang ? '/' : '/'+lang
+        const { lang, wp } = this.props
+        return lang === wp.default_language ? '/' : '/'+lang
     }
 
     renderLangSwitcher() {
-        const { router, wp } = this.props
+        const { wp } = this.props
         if(wp && wp.languages) {
             return(
                 <LanguageSwitcher>
                     {wp.languages.map(lang => {
                         return(
-                            <Link key={lang} to={'/'+lang}>
+                            <Link key={lang} to={lang === wp.default_language ? '/' : '/'+lang}>
                                 {lang.toUpperCase()}
                             </Link>
                         )
@@ -55,7 +50,7 @@ class Header extends Component {
             <Wrapper>
                 <Container flex justify="space-between" align="center">
                     <Link to={this.homeLink()}>
-                        <Logo>SSR App</Logo>
+                        <Logo>{this.props.wp.site_name}</Logo>
                     </Link>
                     {this.renderLangSwitcher()}
                     {this.renderMenu()}
@@ -66,12 +61,11 @@ class Header extends Component {
 }
 
 const mapStateToProps = (state, props) => {
-    const lang = props.router.query.lang || state.wp.default_language
-    const menu = lang && state.menus[lang] ? state.menus[lang]['primary-menu'] : state.menus['primary-menu']
-    //console.log('state menus:',state.menus, 'lang:',lang);
+    const menu = state.lang && state.menus[state.lang] ? state.menus[state.lang]['primary-menu'] : state.menus['primary-menu']
     return {
         menu: menu || null,
         wp: state.wp,
+        lang: state.lang,
     }
 }
 
