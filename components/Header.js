@@ -46,11 +46,15 @@ class Header extends Component {
     }
 
     render() {
+        const { wp } = this.props
+
+        if(!wp) return null
+        
         return (
             <Wrapper>
                 <Container flex justify="space-between" align="center">
                     <Link to={this.homeLink()}>
-                        <Logo>{this.props.wp.site_name}</Logo>
+                        <Logo>{wp.site_name}</Logo>
                     </Link>
                     {this.renderLangSwitcher()}
                     {this.renderMenu()}
