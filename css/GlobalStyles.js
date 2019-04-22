@@ -15,8 +15,8 @@ export default createGlobalStyle`
     }
 
     body {
-        font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
-        font-size:16px;
+        font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+        font-size: 16px;
         line-height: 1.2;
         background: ${colors.background};
         color: ${colors.text};
@@ -25,6 +25,30 @@ export default createGlobalStyle`
         max-width:100%;
         overflow-x: hidden;
     }
+
+    /*@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,700');
+    body {
+        font-family: 'Roboto', sans-serif;
+        font-size:16px;
+        line-height: 1.2;
+        font-weight: 400;
+    }*/
+
+    /*@font-face {
+        @font-face {
+            font-family: 'Circular Std Book';
+            src: url('/static/fonts/CircularStd-Book.ttf');
+            font-weight: normal;
+            font-display: auto;
+            font-style: normal;
+        }
+    }
+    body {
+        font-family: 'Circular Std Book';
+        -webkit-font-smoothing: antialiased;
+        font-size:16px;
+        line-height: 1.2;
+    }*/
 
     a, a:hover, a:visited, a:active {
         text-decoration: none;

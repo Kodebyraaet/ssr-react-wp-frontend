@@ -72,8 +72,8 @@ class Image extends Component {
             var img = document.createElement("img");
             img.onload = e => {
                 if(debug) console.log('lazy image loaded');
-                this.refs.lazyload.setAttribute('style', `background-image: url(${size})`);
-                this.refs.placeholder.className = 'placeholder hidden';
+                if(this.refs.lazyload) this.refs.lazyload.setAttribute('style', `background-image: url(${size})`);
+                if(this.refs.placeholder) this.refs.placeholder.className = 'placeholder hidden';
             }
             if(debug) console.log('loading lazy image');
             img.src = size;
