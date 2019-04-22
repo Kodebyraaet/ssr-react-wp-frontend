@@ -72,11 +72,11 @@ class Image extends Component {
             var img = document.createElement("img");
             img.onload = e => {
                 if(debug) console.log('lazy image loaded');
-                if(this.refs.lazyload) this.refs.lazyload.setAttribute('style', `background-image: url(${size})`);
+                if(this.refs.lazyload) this.refs.lazyload.setAttribute('style', `background-image: url(${size.url})`);
                 if(this.refs.placeholder) this.refs.placeholder.className = 'placeholder hidden';
             }
             if(debug) console.log('loading lazy image');
-            img.src = size;
+            img.src = size.url;
         }
     }
 
@@ -123,11 +123,11 @@ class Image extends Component {
                                 {/*<span>{image.alt}</span>*/}
                             </div>
                         }
-                        <div className="placeholder" ref="placeholder" style={{ backgroundImage: `url(${image.sizes.min})` }} />  
+                        <div className="placeholder" ref="placeholder" style={{ backgroundImage: `url(${image.sizes.min.url})` }} />  
                     </React.Fragment>
                 }
                 {!background && size &&
-                    <img src={size} alt={image.alt} title={image.title} />
+                    <img src={size.url} alt={image.alt} title={image.title} />
                 }
             </Wrapper>
         );
