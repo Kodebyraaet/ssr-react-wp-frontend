@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import modules from './modules';
-import ErrorBoundary from 'components/ErrorBoundary';
+import ErrorBoundary from './ErrorBoundary';
 
 class Builder extends Component {
 

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
-import Container from 'components/Container';
-import Html from 'components/Html';
+import Container from '../Container';
+import Html from '../Html';
 
 class RichText extends Component {
     render() {

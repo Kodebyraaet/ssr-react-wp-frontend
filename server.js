@@ -2,7 +2,6 @@ const express = require('express')
 const next = require('next')
 const cacheableResponse = require('cacheable-response')
 
-const port = parseInt(process.env.PORT, 10) || 3000
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
 
@@ -30,12 +29,12 @@ app.prepare().then(() => {
         server.get(path, (req, res) => {
 
             // no server in memory cache for DEV
-            if(dev) {
+            //if(dev) {
                 return app.render(req, res, page, query(req))
-            }
+            //}
 
             // for production only
-            return ssrCache({ req, res, page, query: query(req) })
+            //return ssrCache({ req, res, page, query: query(req) })
         })
 
     })
@@ -44,9 +43,9 @@ app.prepare().then(() => {
         return handle(req, res)
     })
 
-    server.listen(port, err => {
+    server.listen(3000, err => {
         if (err) throw err
-        console.log('> Ready on http://localhost:'+port)
+        console.log('> Ready on http://localhost:3000')
     })
 
 }).catch(ex => {

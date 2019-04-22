@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { urlEncode } from 'lib/helpers'
+import { urlEncode } from '../lib/helpers'
 
 export const FacebookShareLink = props => {
     const url = urlEncode(props.url)

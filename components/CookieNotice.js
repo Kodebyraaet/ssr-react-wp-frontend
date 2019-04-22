@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 
 import WP from 'WP';
-import CookieIcon from 'components/icons/CookieIcon';
-import { cookie } from 'helpers';
+import CookieIcon from './icons/CookieIcon';
+import { cookie } from '../lib/helpers';
 
 class CookieNotice extends Component {
 

@@ -4,7 +4,7 @@ import App, { Container } from 'next/app'
 import withRedux from 'next-redux-wrapper'
 
 import { initializeStore } from '../store'
-import GlobalStyles from 'css/GlobalStyles'
+import GlobalStyles from '../css/GlobalStyles'
 
 export default withRedux(initializeStore)(
     class MyApp extends App {

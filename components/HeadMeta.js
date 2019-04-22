@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Head from 'next/head'
 
-import colors from 'css/colors'
+import colors from '../css/colors'
 
 class HeadMeta extends Component {
 
@@ -82,6 +82,12 @@ class HeadMeta extends Component {
                 {this.getOpenGraphImage()}
                 {this.getTwitterTitle()}
                 {this.getTwitterDescription()}
+                <meta name="theme-color" content="#ff6600" />
+                <link rel="apple-touch-icon" href="/static/icon.png" />
+                <meta name="apple-mobile-web-app-title" content="SSR" />
+                <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+                <meta name="apple-mobile-web-app-capable" content="yes" />
+                <meta name="mobile-web-app-capable" content="yes" />
             </Head>
         )
     }

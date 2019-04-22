@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 
-import Container from 'components/Container'
-import api from 'api'
+import Container from '../Container'
+import api from '../../api'
 
 class BlogPosts extends Component {
     

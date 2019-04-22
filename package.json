@@ -2,14 +2,12 @@
   "name": "ssr-react-wp",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon server.js",
+    "dev": "node server.js",
     "build": "next build",
     "now-build": "next build",
-    "start": "NODE_ENV=production node server.js",
-    "export": "next export"
+    "start": "NODE_ENV=production node server.js"
   },
   "keywords": [],
   "author": "",

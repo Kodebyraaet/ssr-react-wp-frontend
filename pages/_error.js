@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import Head from 'next/head'
 
-import Header from 'components/Header'
-import Footer from 'components/Footer'
+import Header from '../components/Header'
+import Footer from '../components/Footer'
 
 class Error extends Component {
 
@@ -19,7 +19,7 @@ class Error extends Component {
                     <title>{statusCode} error</title>
                 </Head>
                 <Header />
-                    {statusCode} Error
+                {statusCode} Error
                 <Footer />
             </div>
         )

@@ -1,8 +1,17 @@
 {
     "version": 2,
-    "name": "ssr-react-wp",
-    "builds": [{ "src": "next.config.js", "use": "@now/next" }],
+    "builds": [
+        { "src": "next.config.js", "use": "@now/next" }
+    ],
+    "build": {
+        "env": {
+          "API_BASE": "https://ssrwp-cms.kbhq.no"
+        }
+    },   
     "routes": [
-        { "src": "/_next/static/(?:[^/]+/pages|chunks|runtime)/.+", "headers": { "cache-control": "immutable" } }
+        { "src": "/_next/static/(?:[^/]+/pages|chunks|runtime)/.+", "headers": { "cache-control": "immutable" } },
+        { "src": "/pl", "dest": "/?lang=pl" },
+        { "src": "/pl/(?<slug>[^/]+)", "dest": "/?lang=pl&slug=$slug" },
+        { "src": "/(?<slug>[^/]+)", "dest": "/?slug=$slug" }
     ]
 }

@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-unfetch'
 
-import { buildQueryString } from 'lib/helpers'
+import { buildQueryString } from '../lib/helpers'
 
 const api = {
 

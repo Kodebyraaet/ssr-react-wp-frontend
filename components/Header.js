@@ -3,10 +3,9 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { withRouter } from 'next/router'
 
-import api from 'api'
-import colors from 'css/colors'
-import Link from 'components/Link'
-import Container from 'components/Container'
+import colors from '../css/colors'
+import Link from './Link'
+import Container from './Container'
 
 class Header extends Component { 
 
@@ -49,7 +48,7 @@ class Header extends Component {
         const { wp } = this.props
 
         if(!wp) return null
-        
+
         return (
             <Wrapper>
                 <Container flex justify="space-between" align="center">

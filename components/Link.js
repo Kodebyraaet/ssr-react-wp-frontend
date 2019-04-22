@@ -1,8 +1,8 @@
 import React from 'react'
-import Link from 'next/Link'
+import Link from 'next/link'
 import { withRouter } from 'next/router'
 
-import { buildQueryString } from 'lib/helpers'
+import { buildQueryString } from '../lib/helpers'
 
 export default withRouter( ({ to, title, children, prefetch, className, ...props }) => {
     const { link, path, query, queryString } = parseLink(to)

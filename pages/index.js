@@ -4,10 +4,12 @@ import Error from './_error'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import Layout from 'components/Layout'
-import Builder from 'components/Builder'
-import api from 'api'
+import Layout from '../components/Layout'
+import Builder from '../components/Builder'
+import api from '../api'
 
+import Link from 'next/link'
+ 
 import { setMenu, setWp, setLang } from '../store'
 
 class Index extends React.Component {
@@ -29,6 +31,8 @@ class Index extends React.Component {
             store.dispatch(setWp(wp))
             storeState = store.getState() // get state again so it contains 'wp'
         }
+
+        if(!storeState.wp) return {}
 
         /*
         |--------------------------------------------------------------------------
@@ -70,7 +74,7 @@ class Index extends React.Component {
         }
         page = Array.isArray(page) ? page[0] : page
 
-        if(!isServer) console.log('Page:', page); 
+        if(!isServer) console.log('Page:', page, storeState); 
 
         return { page }
     }

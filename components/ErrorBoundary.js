@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
-import ErrorIcon from 'components/icons/ErrorIcon';
+import ErrorIcon from './icons/ErrorIcon';
 
 class ErrorBoundary extends Component {
     constructor(props) {
