@@ -1,0 +1,7 @@
+
+1. add support for previews (https://medium.com/kata-engineering/headless-wordpress-next-js-what-we-learned-c10abdf80f6a)
+
+2. test with a lot of WP content
+
+3. support string translations in theme
+

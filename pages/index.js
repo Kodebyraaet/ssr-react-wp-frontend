@@ -5,14 +5,18 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import Layout from '../components/Layout'
-import Builder from '../components/Builder'
 import api from '../api'
-
-import Link from 'next/link'
+import { isServer } from 'lib/helpers'
  
 import { setMenu, setWp, setLang } from '../store'
 
 class Index extends React.Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {}
+    }
 
     static async getInitialProps({ store, isServer, query, pathname, req }) {
 
@@ -59,6 +63,15 @@ class Index extends React.Component {
             const menu = await api.get('menu', { location, lang })
             store.dispatch(setMenu({ menu, location, lang }))
         }
+
+        /*
+        |--------------------------------------------------------------------------
+        |  If preview requested return before fetching page data
+        |--------------------------------------------------------------------------
+        */
+        if(query.preview && query.id && query.nonce) {
+            return {}
+        }
         
         /*
         |--------------------------------------------------------------------------
@@ -72,23 +85,34 @@ class Index extends React.Component {
             const homePageId = !lang ? storeState.wp.home_page.id : storeState.wp.home_page.translations[lang];
             page = await api.get('page', { id: homePageId })
         }
-        page = Array.isArray(page) ? page[0] : page
 
-        if(!isServer) console.log('Page:', page, storeState); 
+        page = Array.isArray(page) ? page[0] : page
 
         return { page }
     }
+
+    async componentDidMount() {
+        const { query } = this.props.router
+
+        // get page preview if requested
+        if(query.preview && query.id && query.nonce) {
+            const preview = await api.get('preview', 
+                { id: query.id, nonce: query.nonce }, 
+                { credentials: 'include'}
+            )
+            console.log('Preview: ',preview)
+        }
+    }
   
     render () {
-        const { page } = this.props;
+        const { page, router } = this.props
+        const { preview } = this.state
 
-        if(!page) return <Error statusCode={404} />
+        const data = page || preview
 
-        return(
-            <Layout page={page}>
-                <Builder data={page.acf.modules} page={page} />
-            </Layout>
-        )
+        if(!data && !router.query.preview) return <Error statusCode={404} />
+
+        return <Layout page={data} />
     }
 }
 

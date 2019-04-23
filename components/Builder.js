@@ -6,7 +6,11 @@ import ErrorBoundary from './ErrorBoundary';
 class Builder extends Component {
 
     render() {
-        const { data, page } = this.props;
+        const { page } = this.props;
+
+        if(!page) return null
+
+        const data = page.acf.modules
 
         return (                            
             <div className="modules">
