@@ -14,7 +14,7 @@
         { "src": "/pl", "dest": "/?lang=pl" },
         { "src": "/pl/(?<slug>[^/]+)", "dest": "/?lang=pl&slug=$slug" },
         { "src": "/pl/(?<parent>[^/]+)/(?<slug>[^/]+)", "dest": "/?lang=pl&parent=$parent&slug=$slug" },
-        { "src": "/_preview/(?<id>[^/]+)/(?<nonce>[^/]+)", "dest": "/?preview=true&id=$id&nonce=$nonce" },
+        { "src": "/_preview/(?<type>[^/]+)/(?<id>[^/]+)/(?<nonce>[^/]+)", "dest": "/?preview=true&type=$type&id=$id&nonce=$nonce" },
         { "src": "/(?<slug>[^/]+)", "dest": "/?slug=$slug" },
         { "src": "/(?<parent>[^/]+)/(?<slug>[^/]+)", "dest": "/?parent=$parent&slug=$slug" }
     ]

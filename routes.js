@@ -20,9 +20,9 @@ module.exports = [
         query: req => ({ lang: 'pl', slug: req.params.slug, parent: req.params.parent }) 
     },
     { 
-        path: '/_preview/:id/:nonce', 
+        path: '/_preview/:type/:id/:nonce', 
         page: '/', 
-        query: req => ({ preview: true, id: req.params.id, nonce: req.params.nonce }) 
+        query: req => ({ preview: true, type: req.params.type, id: req.params.id, nonce: req.params.nonce }) 
     },
     { 
         path: '/:slug', 

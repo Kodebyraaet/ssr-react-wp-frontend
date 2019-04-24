@@ -69,7 +69,7 @@ class Index extends React.Component {
         |  If preview requested return before fetching page data
         |--------------------------------------------------------------------------
         */
-        if(query.preview && query.id && query.nonce) {
+        if(query.preview && query.id && query.nonce && query.type) {
             return {}
         }
         
@@ -95,12 +95,12 @@ class Index extends React.Component {
         const { query } = this.props.router
 
         // get page preview if requested
-        if(query.preview && query.id && query.nonce) {
+        if(query.preview && query.id && query.nonce && query.type) {
             const preview = await api.get('preview', 
-                { id: query.id, nonce: query.nonce }, 
+                { id: query.id, nonce: query.nonce, type: query.type }, 
                 { credentials: 'include'}
             )
-            console.log('Preview: ',preview)
+            if(preview) this.setState({ preview })
         }
     }
   
