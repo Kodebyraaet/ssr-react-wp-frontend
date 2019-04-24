@@ -1,6 +1,7 @@
 const express = require('express')
 const next = require('next')
-const cacheableResponse = require('cacheable-response')
+const path = require('path')
+//const cacheableResponse = require('cacheable-response')
 
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
@@ -10,19 +11,21 @@ const handle = app.getRequestHandler()
 const routes = require('./routes')
 
 // server in memory caching
-const ssrCache = cacheableResponse({
+/*const ssrCache = cacheableResponse({
     ttl: 1000 * 60 * 60, // 1hour
     get: async ({ req, res, page, query }) => ({
       data: await app.renderToHTML(req, res, page, query)
     }),
     send: ({ data, res }) => res.send(data)
-})
+})*/
 
 app.prepare().then(() => {
     const server = express()
 
     // default language does not use lang. code
     server.get('/en', (req, res) => res.redirect(301, '/') )
+
+    server.get('/sw.js', (req, res) => app.serveStatic(req, res, path.resolve('./static/sw.js')))
 
     // app routes
     routes.forEach(({ path, page, query }) => {

@@ -3,6 +3,9 @@ require('dotenv').config()
 const path = require('path')
 const Dotenv = require('dotenv-webpack')
 
+const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
+const webpack = require('webpack')
+
 module.exports = {
     webpack: (config, options) => {
         config.resolve.alias['components'] = path.join(__dirname, 'components')
@@ -18,6 +21,31 @@ module.exports = {
                 systemvars: true
             })
         ]
+
+        const oldEntry = config.entry
+        config.entry = () => oldEntry().then(entry => {
+            if(entry['main.js']) entry['main.js'].push(path.resolve('./lib/offline'))
+            return entry
+        })
+        if(!options.dev) {
+            config.plugins = [
+                ...(config.plugins || []),
+                new SWPrecacheWebpackPlugin({
+                    cacheId: 'test-lighthouse',
+                    filepath: path.resolve('./static/sw.js'),
+                    staticFileGlobs: ['static/**/*'],
+                    minify: true,
+                    staticFileGlobsIgnorePatterns: [/\.next\//],
+                    runtimeCaching: [{
+                        handler: 'fastest',
+                        urlPattern: /[.](png|jpg|css)/
+                    },{
+                        handler: 'networkFirst',
+                        urlPattern: /^http.*/
+                    }]
+                })
+            ]
+        }
 
         return config
     },

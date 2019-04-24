@@ -11,6 +11,8 @@
     },   
     "routes": [
         { "src": "/_next/static/(?:[^/]+/pages|chunks|runtime)/.+", "headers": { "cache-control": "immutable" } },
+        { "src": "/sw.js", "dest": "/static/sw.js" },
+        
         { "src": "/pl", "dest": "/?lang=pl" },
         { "src": "/pl/(?<slug>[^/]+)", "dest": "/?lang=pl&slug=$slug" },
         { "src": "/pl/(?<parent>[^/]+)/(?<slug>[^/]+)", "dest": "/?lang=pl&parent=$parent&slug=$slug" },
