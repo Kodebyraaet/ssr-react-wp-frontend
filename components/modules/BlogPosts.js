@@ -68,6 +68,7 @@ const PostGrid = styled.ul`
 const PostItem = styled.li`
     width: 32%;
     margin-bottom: 2%;
+    position: relative;
     h1 {
         font-weight: 700;
         font-size:18px;

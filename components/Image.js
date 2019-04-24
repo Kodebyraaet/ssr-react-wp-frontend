@@ -55,7 +55,7 @@ class Image extends Component {
 
             if(entry && entry.isIntersecting) {
                 this.setState({
-                    size: this.imageSizeForWidth(entry.rootBounds.width)
+                    size: this.imageSizeForWidth(entry.boundingClientRect.width)
                 }, this.loadBackgroundImage);
                 observer.disconnect();
             }
