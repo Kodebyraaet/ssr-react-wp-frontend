@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://ssr-react-wp.forde.now.sh/sitemap.xml

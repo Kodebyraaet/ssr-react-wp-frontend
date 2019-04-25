@@ -8,11 +8,14 @@ const webpack = require('webpack')
 
 module.exports = {
     webpack: (config, options) => {
+
+        // absolute imports
         config.resolve.alias['components'] = path.join(__dirname, 'components')
         config.resolve.alias['lib'] = path.join(__dirname, 'lib')
         config.resolve.alias['api'] = path.join(__dirname, 'api')
         config.resolve.alias['css'] = path.join(__dirname, 'css')
 
+        // .env support for local development and node servers
         config.plugins = [
             ...(config.plugins || []),
             // Read the .env file
@@ -22,30 +25,21 @@ module.exports = {
             })
         ]
 
-        const oldEntry = config.entry
-        config.entry = () => oldEntry().then(entry => {
-            if(entry['main.js']) entry['main.js'].push(path.resolve('./lib/offline'))
-            return entry
-        })
-        if(!options.dev) {
-            config.plugins = [
-                ...(config.plugins || []),
-                new SWPrecacheWebpackPlugin({
-                    cacheId: 'test-lighthouse',
-                    filepath: path.resolve('./static/sw.js'),
-                    staticFileGlobs: ['static/**/*'],
-                    minify: true,
-                    staticFileGlobsIgnorePatterns: [/\.next\//],
-                    runtimeCaching: [{
-                        handler: 'fastest',
-                        urlPattern: /[.](png|jpg|css)/
-                    },{
-                        handler: 'networkFirst',
-                        urlPattern: /^http.*/
-                    }]
-                })
-            ]
-        }
+        // service worker
+        config.plugins.push(
+            new SWPrecacheWebpackPlugin({
+                cacheId: 'ssr-react-wp',
+                verbose: true,
+                filepath: path.resolve('./static/service-worker.js'),
+                staticFileGlobs: ['static/**/*'],
+                minify: true,
+                staticFileGlobsIgnorePatterns: [/\.next\//],
+                runtimeCaching: [
+                    { handler: 'networkFirst', urlPattern: /^https?.*/ }
+                    //,{ handler: 'networkFirst', urlPattern: /^http.*/ }
+                ]
+            })
+        )
 
         return config
     },

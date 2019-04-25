@@ -26,6 +26,7 @@ app.prepare().then(() => {
     server.get('/en', (req, res) => res.redirect(301, '/') )
 
     server.get('/sw.js', (req, res) => app.serveStatic(req, res, path.resolve('./static/sw.js')))
+    server.get('/service-worker.js', (req, res) => app.serveStatic(req, res, path.resolve('./static/service-worker.js')))
 
     // app routes
     routes.forEach(({ path, page, query }) => {

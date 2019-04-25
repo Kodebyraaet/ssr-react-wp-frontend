@@ -70,9 +70,7 @@ class HeadMeta extends Component {
         return(
             <Head>
                 <meta charSet="UTF-8" />
-                <meta name="viewport" content="width=device-width, initial-scale=1" />
-                <link rel="icon" href="/static/favicon.ico" />
-                <link rel="manifest" href="/static/manifest.json" />
+    
                 {this.getTitle()}
                 {this.getDescription()}
                 {this.getKeyWords()}
@@ -82,12 +80,22 @@ class HeadMeta extends Component {
                 {this.getOpenGraphImage()}
                 {this.getTwitterTitle()}
                 {this.getTwitterDescription()}
-                <meta name="theme-color" content="#ff6600" />
-                <link rel="apple-touch-icon" href="/static/icon.png" />
+
+        
+                <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+                <link rel="icon" type="image/png" sizes="32x32" href="/static/icons/favicon-32x32.png" />
+                <link rel="icon" type="image/png" sizes="16x16" href="/static/icons/favicon-16x16.png" />
+                <link rel="shortcut icon" href="/static/icons/favicon.ico" />
+                <link rel="manifest" href="/static/manifest.json" />
+                <meta name="theme-color" content="#0088FF" />
+                <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png" />
                 <meta name="apple-mobile-web-app-title" content="SSR" />
-                <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+                <meta name="apple-mobile-web-app-status-bar-style" content="#0088FF" />
                 <meta name="apple-mobile-web-app-capable" content="yes" />
                 <meta name="mobile-web-app-capable" content="yes" />
+                <meta name="msapplication-TileColor" content="#fff" />
+                <meta name="msapplication-config" content="/static/browserconfig.xml" />
+
             </Head>
         )
     }
