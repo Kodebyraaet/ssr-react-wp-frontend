@@ -16,6 +16,6 @@ Make sure you have "now" CLI installed (`now help`). If not - get it with `sudo 
 
 ### TODO:
 
-- fix featured image in post previews
+- ~fix featured image in post previews~
 - add support translation strings to config object
 - abstract config & menu loading loading from pages/index.js so its easyer to create more pages
