@@ -13,3 +13,9 @@ This setup is meant to be used with WordPress headless backend. You can grab it 
 
 ### Deployment with "Now"
 Make sure you have "now" CLI installed (`now help`). If not - get it with `sudo npm i -g --unsafe-perm now`
+
+### TODO:
+
+- fix featured image in post previews
+- add support translation strings to config object
+- abstract config & menu loading loading from pages/index.js so its easyer to create more pages

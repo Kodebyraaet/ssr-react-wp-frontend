@@ -1,5 +1,0 @@
-
-2. test with a lot of WP content
-
-3. support string translations in theme
-
