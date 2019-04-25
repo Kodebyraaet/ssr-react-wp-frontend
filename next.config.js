@@ -25,19 +25,21 @@ module.exports = {
         ]
 
         // service worker
-        config.plugins.push(
-            new SWPrecacheWebpackPlugin({
-                cacheId: 'ssr-react-wp',
-                verbose: true,
-                filepath: path.resolve('./static/service-worker.js'),
-                staticFileGlobs: ['static/**/*'],
-                minify: true,
-                staticFileGlobsIgnorePatterns: [/\.next\//],
-                runtimeCaching: [
-                    { handler: 'networkFirst', urlPattern: /^https?.*/ }
-                ]
-            })
-        )
+        if(process.env.NODE_ENV === 'production') {
+            config.plugins.push(
+                new SWPrecacheWebpackPlugin({
+                    cacheId: 'ssr-react-wp',
+                    verbose: true,
+                    filepath: path.resolve('./static/service-worker.js'),
+                    staticFileGlobs: ['static/**/*'],
+                    minify: true,
+                    staticFileGlobsIgnorePatterns: [/\.next\//],
+                    runtimeCaching: [
+                        { handler: 'networkFirst', urlPattern: /^https?.*/ }
+                    ]
+                })
+            )
+        }
 
         return config
     },

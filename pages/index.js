@@ -31,7 +31,7 @@ class Index extends React.Component {
         |--------------------------------------------------------------------------
         */
         if(!storeState.wp) {
-            const wp = await api.get('config')
+            const wp = await api.get('config', { lang: query.lang || '' })
             store.dispatch(setWp(wp))
             storeState = store.getState() // get state again so it contains 'wp'
         }
@@ -100,7 +100,6 @@ class Index extends React.Component {
                 { id: query.id, nonce: query.nonce, type: query.type, image: query.image }, 
                 { credentials: 'include'}
             )
-            console.log('Preview', preview);
             if(preview) this.setState({ preview })
         }
     }
