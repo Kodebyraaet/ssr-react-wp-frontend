@@ -20,5 +20,5 @@ Deply to now with `now`
 
 + ~fix featured image in post previews~
 + ~add support translation strings to config object~
-- abstract config & menu loading loading from pages/index.js so its easyer to create more pages
++ ~abstract config & menu loading loading from pages/index.js so its easyer to create more pages~
 - add ACF options to global config endpoint
