@@ -4,7 +4,6 @@ const path = require('path')
 const Dotenv = require('dotenv-webpack')
 
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
-const webpack = require('webpack')
 
 module.exports = {
     webpack: (config, options) => {
@@ -36,7 +35,6 @@ module.exports = {
                 staticFileGlobsIgnorePatterns: [/\.next\//],
                 runtimeCaching: [
                     { handler: 'networkFirst', urlPattern: /^https?.*/ }
-                    //,{ handler: 'networkFirst', urlPattern: /^http.*/ }
                 ]
             })
         )

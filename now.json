@@ -10,9 +10,10 @@
         }
     },   
     "routes": [
+        { "src": "/static/(.*)", "dest": "/static/($1)" },
+        
         { "src": "/_next/static/(?:[^/]+/pages|chunks|runtime)/.+", "headers": { "cache-control": "immutable" } },
 
-        { "src": "/sw.js", "dest": "/static/sw.js" },
         { "src": "/service-worker.js", "dest": "/static/service-worker.js" },
         { "src": "/robots.txt", "dest": "/static/robots.txt" },
         { "src": "/sitemap.xml", "dest": "/static/sitemap.xml" },
