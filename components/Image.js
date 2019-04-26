@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
-import styled from 'styled-components';
-import debounce from 'lodash.debounce';
+import React, { Component } from 'react'
+import styled from 'styled-components'
+import debounce from 'lodash.debounce'
+import { connect } from 'react-redux'
 
 class Image extends Component {
     constructor(props) {
@@ -132,7 +133,11 @@ class Image extends Component {
     }
 }
 
-export default Image;
+const mapStateToProps = state => ({
+    wp: state.wp
+})
+
+export default connect(mapStateToProps)(Image);
 
 const Wrapper = styled.div`
     position:relative;
