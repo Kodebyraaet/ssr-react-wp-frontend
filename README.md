@@ -22,6 +22,6 @@ Deply to now with `now`
 + ~add support translation strings to config object~
 + ~abstract config & menu loading loading from pages/index.js so its easyer to create more pages~
 + ~add ACF options to global config endpoint~
-- add generic loader component
-- addd cookie notice popup
-- add page load progress bar
++ ~add generic loader component~
++ ~addd cookie notice popup~
+-> add page load progress bar

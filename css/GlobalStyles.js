@@ -17,7 +17,7 @@ export default createGlobalStyle`
     body {
         font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
         font-size: 16px;
-        line-height: 1.2;
+        line-height: 1.3;
         background: ${colors.background};
         color: ${colors.text};
         min-height: 100vh;

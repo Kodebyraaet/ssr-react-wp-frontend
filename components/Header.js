@@ -76,7 +76,7 @@ export default withRouter(connect(mapStateToProps, null)(Header))
 
 const Wrapper = styled.div`
     padding: 20px 0;
-    background: ${colors.lightBlue};
+    background: ${colors.accentLight};
     margin-bottom:20px;
 `
 

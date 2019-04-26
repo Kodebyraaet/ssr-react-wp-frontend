@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
-import styled from 'styled-components';
+import React, { Component } from 'react'
+import styled from 'styled-components'
+import { connect } from 'react-redux'
 
-import WP from 'WP';
-import CookieIcon from './icons/CookieIcon';
-import { cookie } from '../lib/helpers';
+import CookieIcon from 'components/icons/CookieIcon'
+import { cookie } from 'lib/helpers'
+import colors from 'css/colors'
 
 class CookieNotice extends Component {
 
@@ -13,33 +14,41 @@ class CookieNotice extends Component {
     }
   
     render() {
-        const defaultMessage = 'Here’s an example of a simple notification message. It lets users know that the website uses cookies to offer relevant information and for optimal performance.';
-
+        const { options } = this.props.wp
+        const title = (options && options.cookie_notice_title) ? options.cookie_notice_title : 'This website uses cookies'
+        const message = (options && options.cookie_notice_description) ? options.cookie_notice_description : 'Here’s an example of a simple notification message. It lets users know that the website uses cookies to offer relevant information and for optimal performance.'
+        
         if(cookie.get('terms_accepted')) return null;
+
+        console.log(this.props.wp);
 
         return (
             <Wrapper>
                 <TitleWrapper>
-                    <CookieIcon color="#AAAAAA"/>
-                    <span dangerouslySetInnerHTML={{ __html: WP.options.cookie_popup_title || 'This website uses cookies' }}/>
+                    <CookieIcon color={colors.accent} />
+                    <span dangerouslySetInnerHTML={{ __html: title }}/>
                 </TitleWrapper>
-                <div className="message" dangerouslySetInnerHTML={{ __html: WP.options.cookie_popup_description || defaultMessage }} />
+                <div className="message" dangerouslySetInnerHTML={{ __html: message }} />
                 <Button onClick={this._onAccept.bind(this)}>Accept & close</Button>
             </Wrapper>
         );
     }
 }
 
-export default CookieNotice;
+const mapStateToProps = state => ({
+    wp: state.wp
+})
+
+export default connect(mapStateToProps)(CookieNotice);
 
 const Wrapper = styled.div`
     position: fixed;
-    bottom: 100px;
+    bottom: 0;
     right:0;
     max-width:350px;
     padding:30px;
-    background: #F3F3F3;
-    color: #AAAAAA;
+    background: ${colors.accentLight};
+    color: ${colors.accent};
     z-index: 9999;
 
     @media(max-width: 480px) {
@@ -77,8 +86,10 @@ const TitleWrapper = styled.div`
 
 const Button = styled.button`
     width:100%;
-    border: 2px solid #AAAAAA;
-    color: #AAAAAA;
+    border: 1px solid ${colors.accent};
+    color: ${colors.accent};
+    font-size:16px;
     padding:10px 30px;
+    background: transparent;
     cursor:pointer;
 `
