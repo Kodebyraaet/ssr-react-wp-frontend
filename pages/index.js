@@ -1,14 +1,11 @@
 import React from 'react';
 import { withRouter } from 'next/router'
 import Error from './_error'
-//import { connect } from 'react-redux'
-//import { bindActionCreators } from 'redux'
 
 import Layout from '../components/Layout'
 import api from '../api'
+import { arrayFirst } from 'lib/helpers'
  
-//import { setMenu, setWp, setLang } from '../store'
-
 class Index extends React.Component {
 
     constructor(props) {
@@ -18,9 +15,6 @@ class Index extends React.Component {
     }
 
     static async getInitialProps({ store, isServer, query, pathname, req }) {
-
-        // if query slug is a file - return
-        //if(~String(query.slug).indexOf('.')) return {}
 
         /*
         |--------------------------------------------------------------------------
@@ -34,60 +28,53 @@ class Index extends React.Component {
         const init = await api.initPage({ query, store })
 
         if(!init) return {} // if init failed - die (most likely WP config not available)
+
+        if(init.previewRequested) return { init } // if preview requested return here - preview will be fetched from client side
         
         /*
         |--------------------------------------------------------------------------
         |  load page data by slug or ID (if home page)
         |--------------------------------------------------------------------------
         */
-        let page = null
-        const lang = init.lang
         if(query.slug) { 
-            page = await api.get('page', { slug: query.slug, lang }) 
+            const page = await api.get('page', { slug: query.slug, lang: init.lang }) 
+            return { page: arrayFirst(page), init }
         } else {
-            const storeState = store.getState()
-            const homePageId = !lang ? storeState.wp.home_page.id : storeState.wp.home_page.translations[lang];
-            page = await api.get('page', { id: homePageId })
+            const homePageId = !init.lang ? init.wp.home_page.id : init.wp.home_page.translations[init.lang];
+            const page = await api.get('page', { id: homePageId })
+            return { page: arrayFirst(page), init }
         }
-
-        page = Array.isArray(page) ? page[0] : page
-
-        return { page }
+        
     }
 
-    async componentDidMount() {
-        const { query } = this.props.router
+    componentDidMount() {
+        
+        // get page preview if requested (NOTE: previews can only be fetched from clinet side - node-fetch does not support 'credentials')
+        this.maybeFetchPreview()
 
-        // get page preview if requested
-        if(query.preview && query.id && query.nonce && query.type && query.image) {
+    }
+
+    async maybeFetchPreview() {
+        const { init } = this.props
+
+        if(init && init.previewRequested) {
+            const { id, nonce, type, image } = this.props.router.query
             const preview = await api.get('preview', 
-                { id: query.id, nonce: query.nonce, type: query.type, image: query.image }, 
+                { id, nonce, type, image }, 
                 { credentials: 'include'}
             )
-            if(preview) this.setState({ preview })
+            this.setState({ preview: arrayFirst(preview) })
         }
     }
   
     render () {
-        const { page, router } = this.props
-        const { preview } = this.state
+        const { page, init } = this.props
 
-        const data = page || preview
+        if(init && init.previewRequested) return <Layout page={this.state.preview} />
 
-        if(!data && !router.query.preview) return <Error statusCode={404} />
+        return page ? <Layout page={page} /> : <Error statusCode={404} />
 
-        return <Layout page={data} />
     }
 }
 
 export default withRouter(Index)
-
-/*const mapDispatchToProps = dispatch => {
-    return {
-        setMenu: bindActionCreators(setMenu, dispatch),
-        setWp: bindActionCreators(setWp, dispatch),
-        setLang: bindActionCreators(setLang, dispatch),
-    }
-}
-  
-export default connect(null, mapDispatchToProps)(withRouter(Index))*/

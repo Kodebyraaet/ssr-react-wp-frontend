@@ -73,13 +73,16 @@ const api = {
         }
 
         // check if page preview requested
-        const preview = query.preview && query.id && query.nonce && query.type && query.image
+        const previewRequested = (query.preview && 
+                                query.id && 
+                                query.nonce && 
+                                query.type) ? true : false
 
         return { 
             lang: storeState.lang, 
             wp: storeState.wp,
             menus: storeState.menus,
-            preview: preview
+            previewRequested
         }
     }
     

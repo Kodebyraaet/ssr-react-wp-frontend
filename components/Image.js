@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import debounce from 'lodash.debounce';
 
-import { isServer } from '../lib/helpers'
-
 class Image extends Component {
     constructor(props) {
         super(props);
