@@ -56,7 +56,7 @@ export default createGlobalStyle`
     }
 
     div {
-        outline: 1px dotted #ccc;
+        //outline: 1px dotted #ccc;
     }
 
     img {

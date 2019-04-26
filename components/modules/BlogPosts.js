@@ -4,7 +4,9 @@ import { connect } from 'react-redux'
 
 import Container from '../Container'
 import api from '../../api'
+import colors from 'css/colors'
 import Image from 'components/Image'
+import Loader from 'components/Loader'
 
 class BlogPosts extends Component {
     
@@ -25,11 +27,12 @@ class BlogPosts extends Component {
     render() {
         const { posts } = this.state
 
-        console.log(posts);
-
         return (
             <Wrapper>
                 <Container>
+                    
+                    {!posts && <Loader color={colors.accent} /> }
+
                     <PostGrid>
                         {posts && posts.map(post => {
                             return(

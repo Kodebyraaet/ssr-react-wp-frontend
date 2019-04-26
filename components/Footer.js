@@ -1,9 +1,11 @@
 import React from 'react'
 
+import Loader from 'components/Loader'
+
 // NonSsrComponent will ont be rendered on the server
 import dynamic from 'next/dynamic'
 const NonSsrComponent = dynamic(() => import('components/NonSsrComponent'), {
-    loading: () => <div>loading...</div>,
+    loading: () => <Loader style={{width:100}} />,
     ssr: false
 });
 
