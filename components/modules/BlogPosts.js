@@ -7,6 +7,8 @@ import api from '../../api'
 import colors from 'css/colors'
 import Image from 'components/Image'
 import Loader from 'components/Loader'
+import Link from 'components/Link'
+
 
 class BlogPosts extends Component {
     
@@ -27,6 +29,8 @@ class BlogPosts extends Component {
     render() {
         const { posts } = this.state
 
+        console.log(posts);
+
         return (
             <Wrapper>
                 <Container>
@@ -37,8 +41,10 @@ class BlogPosts extends Component {
                         {posts && posts.map(post => {
                             return(
                                 <PostItem key={post.id}>
-                                    <Image image={post.featured_image} background />
-                                    <h1 dangerouslySetInnerHTML={{ __html: post.title.rendered }} />
+                                    <Link to={post.link} >
+                                        <Image image={post.featured_image} background />
+                                        <h1 dangerouslySetInnerHTML={{ __html: post.title.rendered }} />
+                                    </Link>
                                 </PostItem>
                             )
                         })}

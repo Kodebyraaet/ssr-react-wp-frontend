@@ -19,9 +19,11 @@
         { "src": "/sitemap.xml", "dest": "/static/sitemap.xml" },
         
         { "src": "/pl", "dest": "/?lang=pl" },
+        { "src": "/pl/posty/(?<slug>[^/]+)", "dest": "/?lang=pl&type=post&slug=$slug" },
         { "src": "/pl/(?<slug>[^/]+)", "dest": "/?lang=pl&slug=$slug" },
         { "src": "/pl/(?<parent>[^/]+)/(?<slug>[^/]+)", "dest": "/?lang=pl&parent=$parent&slug=$slug" },
         { "src": "/_preview/(?<type>[^/]+)/(?<id>[^/]+)/(?<nonce>[^/]+)/(?<image>[^/]+)", "dest": "/?preview=true&type=$type&id=$id&nonce=$nonce&image=$image" },
+        { "src": "/news/(?<slug>[^/]+)", "dest": "/?slug=$slug&type=post" },
         { "src": "/(?<slug>[^/]+)", "dest": "/?slug=$slug" },
         { "src": "/(?<parent>[^/]+)/(?<slug>[^/]+)", "dest": "/?parent=$parent&slug=$slug" }
     ]

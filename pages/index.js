@@ -31,14 +31,14 @@ class Index extends React.Component {
         if(!init) return {} // if init failed - die (most likely WP config not available)
 
         if(init.previewRequested) return { init } // if preview requested return here - preview will be fetched from client side
-        
+
         /*
         |--------------------------------------------------------------------------
         |  load page data by slug or ID (if home page)
         |--------------------------------------------------------------------------
         */
         if(query.slug) { 
-            const page = await api.get('page', { slug: query.slug, lang: init.lang }) 
+            const page = await api.get(query.type || 'page', { slug: query.slug, lang: init.lang }) 
             return { page: arrayFirst(page), init }
         } else {
             const homePageId = !init.lang ? init.wp.home_page.id : init.wp.home_page.translations[init.lang];

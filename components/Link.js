@@ -28,7 +28,7 @@ export default withRouter( ({ to, title, children, prefetch, className, ...props
 
 const parseLink = link => {
 
-    const blogBase = 'articles'
+    let blogBase = 'news'
     const postTypes = ['employees']
 
     const path = link
@@ -42,7 +42,7 @@ const parseLink = link => {
     let query = {
         slug: '',
         parent: '',
-        postType: 'page',
+        type: 'page',
         term: '',
         taxonomy: '',
         lang: '',
@@ -57,7 +57,7 @@ const parseLink = link => {
 
     // if post link...
     if(fragments.length && fragments[0] === blogBase) {
-        query.postType = 'post'
+        query.type = 'post'
         query.slug = fragments[fragments.length - 1]
 
         return { link, path, query, queryString: buildQueryString(query) }
@@ -65,7 +65,7 @@ const parseLink = link => {
 
     // if custopm post type link...
     if(fragments.length && ~postTypes.indexOf(fragments[0])) {
-        query.postType = fragments[0]
+        query.type = fragments[0]
         fragments.shift() // reomve post type from fragments
         if(fragments.length) {
             query.slug = fragments[fragments.length - 1]
