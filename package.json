@@ -21,6 +21,7 @@
     "next": "^8.0.4",
     "next-page-transitions": "^1.0.0-beta.2",
     "next-redux-wrapper": "^3.0.0-alpha.2",
+    "nprogress": "^0.2.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-redux": "^7.0.2",

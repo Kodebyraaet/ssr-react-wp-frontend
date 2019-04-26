@@ -1,10 +1,11 @@
 import React from 'react';
 import { withRouter } from 'next/router'
 import Error from './_error'
+//import NProgress from 'nprogress'
 
 import Layout from '../components/Layout'
 import api from '../api'
-import { arrayFirst } from 'lib/helpers'
+import { arrayFirst, isServer } from 'lib/helpers'
  
 class Index extends React.Component {
 
@@ -69,6 +70,8 @@ class Index extends React.Component {
   
     render () {
         const { page, init } = this.props
+
+        //if(!isServer) NProgress.set(1).done()
 
         if(init && init.previewRequested) return <Layout page={this.state.preview} />
 

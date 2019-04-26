@@ -24,4 +24,4 @@ Deply to now with `now`
 + ~add ACF options to global config endpoint~
 + ~add generic loader component~
 + ~addd cookie notice popup~
--> add page load progress bar
++ ~add page load progress bar~ (done but not enabled)

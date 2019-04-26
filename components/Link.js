@@ -1,8 +1,11 @@
 import React from 'react'
 import Link from 'next/link'
 import { withRouter } from 'next/router'
+//import NProgress from 'nprogress'
 
 import { buildQueryString } from '../lib/helpers'
+
+const progress = () => null//NProgress.configure({ speed: 50, trickleSpeed: 50 }).done().start()
 
 export default withRouter( ({ to, title, children, prefetch, className, ...props }) => {
     const { link, path, query, queryString } = parseLink(to)
@@ -12,8 +15,13 @@ export default withRouter( ({ to, title, children, prefetch, className, ...props
     }
 
     return (
-        <Link prefetch={prefetch} as={path} href={`/${queryString}`}>
-            <a className={className}>{children || title}</a>
+        <Link prefetch={prefetch} as={path} href={`/${queryString}`} >
+            <a 
+                onClick={() => progress() } 
+                className={className}
+            >
+                {children || title}
+            </a>
         </Link>
     )
 })
