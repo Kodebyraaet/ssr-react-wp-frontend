@@ -75,12 +75,12 @@ const routes = nowConfig.routes
         // query function
         const query = req => {
             return Object.keys(queryObject).reduce((params, key) => {
-                params[key] = req.params[queryObject[key]]
+                params[key] = req.params[queryObject[key]] || queryObject[key]
                 return params
             }, {})
         }
 
-        return { src, path, page, query  }
+        return { src, path, page, queryObject, query  }
 })
 
 //console.log(routes)
