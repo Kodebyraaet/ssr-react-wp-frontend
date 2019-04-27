@@ -14,6 +14,8 @@ class CookieNotice extends Component {
     }
   
     render() {
+        if(!this.props.wp) return null
+        
         const { options } = this.props.wp
         const title = (options && options.cookie_notice_title) ? options.cookie_notice_title : 'This website uses cookies'
         const message = (options && options.cookie_notice_description) ? options.cookie_notice_description : 'Here’s an example of a simple notification message. It lets users know that the website uses cookies to offer relevant information and for optimal performance.'
