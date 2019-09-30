@@ -16,7 +16,7 @@ class Header extends Component {
         
         return !menu.items ? null : (
             <Menu>
-                {menu.items.map(item => <Link prefetch key={item.id} to={item.url} title={item.title} />)}
+                {menu.items.map(item => <Link key={item.id} to={item.url} title={item.title} />)}
             </Menu>
         )
     }
