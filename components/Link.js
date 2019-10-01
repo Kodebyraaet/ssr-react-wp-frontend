@@ -1,35 +1,36 @@
 import React from 'react'
 import Link from 'next/link'
 import { withRouter } from 'next/router'
-//import NProgress from 'nprogress'
+import { connect } from 'react-redux'
 
 import { buildQueryString } from '../lib/helpers'
 
-const progress = () => null//NProgress.configure({ speed: 50, trickleSpeed: 50 }).done().start()
+export default withRouter(connect(({wp}) => ({wp}))(({ wp, to, title, children, prefetch, className, ...rest }) => {
 
-export default withRouter( ({ to, title, children, prefetch, className, ...props }) => {
-    const { link, path, query, queryString } = parseLink(to)
+    if(!to) return null
 
-    if(props.router.asPath === path) {
+    const isExternalLink = (to && to != '/' && to != '#' && !to.includes(wp.site_url) && to.includes('http'))
+    if (isExternalLink) return <a className={className} {...rest} rel="noopener" href={to} title={title}>{children || title}</a>
+
+    const { link, path, query, queryString } = parseLink(to, wp)
+
+    if(rest.router.asPath === path) {
         className = ((className || '') + ' active').trim()
     }
 
     return (
         <Link prefetch={prefetch} as={path} href={`/${queryString}`} >
-            <a 
-                onClick={() => progress() } 
-                className={className}
-            >
+            <a className={className} >
                 {children || title}
             </a>
         </Link>
     )
-})
+}))
 
-const parseLink = link => {
+const parseLink = (link, wp) => {
 
-    let blogBase = 'news'
-    const postTypes = ['employees']
+    let blogBase = wp.blog_base.slug
+    const postTypes = wp.post_types
 
     const path = link
                 .replace(/^.*\/\/[^\/]+/, '') // remove domain
@@ -49,7 +50,7 @@ const parseLink = link => {
     }
 
     // match language code, store it in 'query' and remove from fragments
-    const languageCodes = [ 'en', 'pl']
+    const languageCodes = wp.languages
     if(fragments.length && ~languageCodes.indexOf(fragments[0])) {
         query.lang = fragments[0]
         fragments.shift() // remove language code from fragments
