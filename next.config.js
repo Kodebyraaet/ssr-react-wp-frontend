@@ -3,7 +3,7 @@ require('dotenv').config()
 const path = require('path')
 const Dotenv = require('dotenv-webpack')
 
-const withOffline = require('next-offline')
+//const withOffline = require('next-offline')
 
 const config = {
     webpack: (config, options) => {
@@ -31,10 +31,10 @@ const config = {
 
     //transformManifest: manifest => ['/'].concat(manifest), // add the homepage to the cache
     //generateInDevMode: true, // Trying to set NODE_ENV=production when running yarn dev causes a build-time error so we turn on the SW in dev mode so that we can actually test it
-    workboxOpts: {
+    /*workboxOpts: {
         swDest: 'static/service-worker.js',
         runtimeCaching: [{
-            urlPattern: /^https?.*/,
+            urlPattern: /^https?.*/   /*,
             handler: 'NetworkFirst',
             options: {
                 cacheName: 'https-calls',
@@ -48,7 +48,8 @@ const config = {
                 }
             }
         }]
-    }
+    }*/
 }
 
-module.exports = withOffline(config)
+//module.exports = withOffline(config)
+module.exports = config

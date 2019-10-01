@@ -16,7 +16,14 @@ class Header extends Component {
         
         return !menu.items ? null : (
             <Menu>
-                {menu.items.map(item => <Link key={item.id} to={item.url} title={item.title} />)}
+                {menu.items.map(item => {
+                    return (
+                        <li key={item.id}>
+                            <Link to={item.url} title={item.title} />
+                            {item.children.map(childItem => <Link key={childItem.id} to={childItem.url} title={childItem.title} />)}
+                        </li>
+                    )
+                })}
             </Menu>
         )
     }
@@ -84,7 +91,7 @@ const Logo = styled.h1`
     color: #000;
 `
 
-const Menu = styled.nav`
+const Menu = styled.ul`
     a {
         margin-left:15px;
         &:hover {

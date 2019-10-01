@@ -56,7 +56,17 @@ export default createGlobalStyle`
     }
 
     div {
-        //outline: 1px dotted #ccc;
+        outline: 1px dotted #ccc;
+    }
+
+    ul {
+        margin: 0;
+        padding:0;
+        li {
+            margin:0;
+            padding:0;
+            list-style: none;
+        }
     }
 
     img {
